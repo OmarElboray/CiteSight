@@ -1,0 +1,85 @@
+{
+  "manifest_version": 3,
+  "name": "PaperLens \u2013 AI Science Reader",
+  "version": "1.0.0",
+  "description": "Understand any scientific paper instantly. AI-powered explanations, jargon busting, and smart summaries for everyone.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://pubmed.ncbi.nlm.nih.gov/*",
+    "https://arxiv.org/*",
+    "https://www.biorxiv.org/*",
+    "https://www.medrxiv.org/*",
+    "https://www.nature.com/*",
+    "https://www.science.org/*",
+    "https://www.cell.com/*",
+    "https://www.sciencedirect.com/*",
+    "https://link.springer.com/*",
+    "https://onlinelibrary.wiley.com/*",
+    "https://www.jstor.org/*",
+    "https://journals.plos.org/*",
+    "https://www.frontiersin.org/*",
+    "https://academic.oup.com/*",
+    "https://www.tandfonline.com/*",
+    "https://pubs.acs.org/*",
+    "https://pubs.rsc.org/*",
+    "https://ieeexplore.ieee.org/*",
+    "https://dl.acm.org/*",
+    "https://scholar.google.com/*",
+    "https://api.groq.com/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://pubmed.ncbi.nlm.nih.gov/*",
+        "https://arxiv.org/abs/*",
+        "https://arxiv.org/html/*",
+        "https://www.biorxiv.org/content/*",
+        "https://www.medrxiv.org/content/*",
+        "https://www.nature.com/articles/*",
+        "https://www.science.org/doi/*",
+        "https://www.cell.com/*/fulltext/*",
+        "https://www.sciencedirect.com/science/article/*",
+        "https://link.springer.com/article/*",
+        "https://onlinelibrary.wiley.com/doi/*",
+        "https://www.jstor.org/stable/*",
+        "https://journals.plos.org/*/article*",
+        "https://www.frontiersin.org/articles/*",
+        "https://academic.oup.com/*/article/*",
+        "https://pubs.acs.org/doi/*",
+        "https://ieeexplore.ieee.org/document/*",
+        "https://dl.acm.org/doi/*"
+      ],
+      "js": [
+        "src/content.js"
+      ],
+      "css": [
+        "src/content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

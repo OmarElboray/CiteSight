@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PaperLens Settings</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 15px;
+  background: #f5f3ef;
+  color: #1a1714;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Lora', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2563b0;
+}
+
+.tagline { font-size: 14px; color: #7a7067; margin-top: 2px; }
+
+.card {
+  background: white;
+  border: 1px solid #e8e4de;
+  border-radius: 14px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-family: 'Lora', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #1a1714;
+  margin-bottom: 6px;
+}
+
+.card-desc { font-size: 13px; color: #7a7067; margin-bottom: 22px; }
+
+.setting-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #9a9085;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  display: block;
+}
+.setting-label:first-child { margin-top: 0; }
+
+.radio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.radio-card {
+  position: relative;
+  border: 1.5px solid #e8e4de;
+  border-radius: 10px;
+  padding: 14px 14px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.radio-card:hover { border-color: #a0b4d8; background: #fafbfc; }
+.radio-card input { position: absolute; opacity: 0; width: 0; height: 0; }
+.radio-card input:checked ~ .rc-inner { color: #2563b0; }
+.radio-card:has(input:checked) { border-color: #2563b0; background: #eef3fc; }
+
+.rc-emoji { font-size: 22px; margin-bottom: 6px; display: block; }
+.rc-title { font-size: 13.5px; font-weight: 600; display: block; }
+.rc-desc { font-size: 11.5px; color: #7a7067; display: block; margin-top: 2px; }
+.radio-card:has(input:checked) .rc-desc { color: #5a7db0; }
+
+.style-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.toggle-list { display: flex; flex-direction: column; gap: 0; }
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0ece6;
+}
+.toggle-row:last-child { border-bottom: none; }
+.toggle-info strong { display: block; font-size: 14px; margin-bottom: 1px; }
+.toggle-info small { font-size: 12px; color: #9a9085; }
+
+.toggle-input { display: none; }
+.toggle-ui {
+  width: 42px; height: 24px;
+  background: #d0ccc6;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.toggle-ui::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 18px; height: 18px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.toggle-input:checked ~ .toggle-ui { background: #2563b0; }
+.toggle-input:checked ~ .toggle-ui::after { transform: translateX(18px); }
+
+.api-section { }
+.api-row { display: flex; gap: 10px; }
+.api-input {
+  flex: 1;
+  background: #f8f7f5;
+  border: 1px solid #e8e4de;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #1a1714;
+  outline: none;
+  font-family: monospace;
+}
+.api-input:focus { border-color: #2563b0; }
+
+.api-test-btn {
+  background: #f8f7f5;
+  border: 1px solid #e8e4de;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  color: #1a1714;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.api-test-btn:hover { border-color: #2563b0; background: #eef3fc; color: #2563b0; }
+
+.api-note {
+  font-size: 12.5px;
+  color: #9a9085;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+.api-note a { color: #2563b0; text-decoration: none; }
+
+.api-status {
+  font-size: 12.5px;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  display: none;
+}
+.api-status.success { background: #dcfce7; color: #16a34a; display: block; }
+.api-status.error { background: #fee2e2; color: #dc2626; display: block; }
+
+.platforms-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.platform-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f8f7f5;
+  border: 1px solid #e8e4de;
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: #4a4038;
+}
+.platform-dot { width: 7px; height: 7px; border-radius: 50%; background: #16a34a; flex-shrink: 0; }
+
+.save-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.save-btn {
+  background: #2563b0;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 28px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.save-btn:hover { background: #1a4d96; }
+
+.save-status { font-size: 13px; color: #16a34a; opacity: 0; transition: opacity 0.3s; }
+.save-status.show { opacity: 1; }
+
+.font-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.font-row input[type="range"] { flex: 1; accent-color: #2563b0; }
+.font-preview {
+  font-size: 13px;
+  color: #7a7067;
+  width: 50px;
+  text-align: right;
+}
+
+.theme-grid { display: flex; gap: 10px; }
+.theme-card {
+  flex: 1;
+  border: 1.5px solid #e8e4de;
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  background: white;
+}
+.theme-card:hover { border-color: #a0b4d8; }
+.theme-card.active { border-color: #2563b0; background: #eef3fc; color: #2563b0; font-weight: 600; }
+.theme-swatch {
+  height: 30px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="page-header">
+    <div>
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 22 22" fill="none">
+          <circle cx="11" cy="11" r="10" stroke="#2563b0" stroke-width="1.5"/>
+          <path d="M7 11h8M11 7v8" stroke="#2563b0" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="11" cy="11" r="3" fill="#2563b0" opacity="0.25"/>
+        </svg>
+        PaperLens
+      </div>
+      <div class="tagline">AI-powered science paper reader — Settings</div>
+    </div>
+  </div>
+
+  <!-- API Key -->
+  <div class="card">
+    <div class="card-title">🔑 Anthropic API Key</div>
+    <div class="card-desc">Required to power AI explanations. Your key is stored locally and never sent to our servers.</div>
+    <div class="api-row">
+      <input type="password" id="api-key" class="api-input" placeholder="sk-ant-api03-..." />
+      <button class="api-test-btn" id="test-key-btn">Test Key</button>
+    </div>
+    <div class="api-status" id="api-status"></div>
+    <p class="api-note">Get your free API key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>. New accounts get free credits.</p>
+  </div>
+
+  <!-- Reading Level -->
+  <div class="card">
+    <div class="card-title">📚 Reading Level</div>
+    <div class="card-desc">How should PaperLens explain papers to you?</div>
+    <div class="radio-grid">
+      <label class="radio-card">
+        <input type="radio" name="level" value="beginner">
+        <div class="rc-inner">
+          <span class="rc-emoji">🌱</span>
+          <span class="rc-title">Beginner</span>
+          <span class="rc-desc">No science background. Everyday language and analogies.</span>
+        </div>
+      </label>
+      <label class="radio-card">
+        <input type="radio" name="level" value="student" checked>
+        <div class="rc-inner">
+          <span class="rc-emoji">🎓</span>
+          <span class="rc-title">Student</span>
+          <span class="rc-desc">STEM undergrad. Explain field-specific jargon.</span>
+        </div>
+      </label>
+      <label class="radio-card">
+        <input type="radio" name="level" value="researcher">
+        <div class="rc-inner">
+          <span class="rc-emoji">🔬</span>
+          <span class="rc-title">Researcher</span>
+          <span class="rc-desc">Cross-disciplinary. Technical but explain niche terms.</span>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <!-- Explanation Style -->
+  <div class="card">
+    <div class="card-title">✏️ Explanation Style</div>
+    <div class="card-desc">How should explanations be formatted and written?</div>
+    <div class="style-grid">
+      <label class="radio-card">
+        <input type="radio" name="style" value="conversational" checked>
+        <div class="rc-inner">
+          <span class="rc-emoji">💬</span>
+          <span class="rc-title">Conversational</span>
+          <span class="rc-desc">Warm, engaging prose with analogies.</span>
+        </div>
+      </label>
+      <label class="radio-card">
+        <input type="radio" name="style" value="bullet">
+        <div class="rc-inner">
+          <span class="rc-emoji">📋</span>
+          <span class="rc-title">Structured</span>
+          <span class="rc-desc">Bullet points, headers, concise format.</span>
+        </div>
+      </label>
+      <label class="radio-card">
+        <input type="radio" name="style" value="socratic">
+        <div class="rc-inner">
+          <span class="rc-emoji">❓</span>
+          <span class="rc-title">Socratic</span>
+          <span class="rc-desc">Guided questions to build understanding.</span>
+        </div>
+      </label>
+      <label class="radio-card">
+        <input type="radio" name="style" value="visual">
+        <div class="rc-inner">
+          <span class="rc-emoji">🗺️</span>
+          <span class="rc-title">Visual</span>
+          <span class="rc-desc">Diagrams, metaphors, spatial explanations.</span>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <!-- Appearance -->
+  <div class="card">
+    <div class="card-title">🎨 Appearance</div>
+    <div class="card-desc">Customize the look of the PaperLens sidebar.</div>
+
+    <span class="setting-label">Theme</span>
+    <div class="theme-grid">
+      <button class="theme-card active" data-theme="light">
+        <div class="theme-swatch" style="background: #ffffff"></div>
+        ☀️ Light
+      </button>
+      <button class="theme-card" data-theme="dark">
+        <div class="theme-swatch" style="background: #1a1714"></div>
+        🌙 Dark
+      </button>
+      <button class="theme-card" data-theme="sepia">
+        <div class="theme-swatch" style="background: #fdf6e3"></div>
+        📜 Sepia
+      </button>
+    </div>
+
+    <span class="setting-label" style="margin-top:20px">Font Size</span>
+    <div class="font-row">
+      <span style="font-size:12px; color:#9a9085">A</span>
+      <input type="range" id="font-size" min="12" max="18" value="14" step="1">
+      <span style="font-size:18px; color:#9a9085">A</span>
+      <span class="font-preview" id="font-preview">14px</span>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="card">
+    <div class="card-title">⚙️ Features</div>
+    <div class="card-desc">Toggle PaperLens behaviors.</div>
+    <div class="toggle-list">
+      <label class="toggle-row">
+        <div class="toggle-info">
+          <strong>Highlight jargon on page</strong>
+          <small>Underline technical terms detected in the paper text</small>
+        </div>
+        <input type="checkbox" id="toggle-highlight" class="toggle-input" checked>
+        <div class="toggle-ui"></div>
+      </label>
+      <label class="toggle-row">
+        <div class="toggle-info">
+          <strong>Auto-open sidebar</strong>
+          <small>Automatically open PaperLens when visiting a supported site</small>
+        </div>
+        <input type="checkbox" id="toggle-autoopen" class="toggle-input">
+        <div class="toggle-ui"></div>
+      </label>
+      <label class="toggle-row">
+        <div class="toggle-info">
+          <strong>Show inline definitions</strong>
+          <small>Show quick definition tooltips when hovering highlighted terms</small>
+        </div>
+        <input type="checkbox" id="toggle-definitions" class="toggle-input" checked>
+        <div class="toggle-ui"></div>
+      </label>
+    </div>
+  </div>
+
+  <!-- Supported Platforms -->
+  <div class="card">
+    <div class="card-title">🌐 Supported Platforms</div>
+    <div class="card-desc">PaperLens works automatically on these sites.</div>
+    <div class="platforms-grid">
+      <div class="platform-tag"><div class="platform-dot"></div>PubMed</div>
+      <div class="platform-tag"><div class="platform-dot"></div>arXiv</div>
+      <div class="platform-tag"><div class="platform-dot"></div>bioRxiv / medRxiv</div>
+      <div class="platform-tag"><div class="platform-dot"></div>Nature</div>
+      <div class="platform-tag"><div class="platform-dot"></div>Science</div>
+      <div class="platform-tag"><div class="platform-dot"></div>Cell</div>
+      <div class="platform-tag"><div class="platform-dot"></div>ScienceDirect</div>
+      <div class="platform-tag"><div class="platform-dot"></div>Springer</div>
+      <div class="platform-tag"><div class="platform-dot"></div>Wiley</div>
+      <div class="platform-tag"><div class="platform-dot"></div>JSTOR</div>
+      <div class="platform-tag"><div class="platform-dot"></div>PLOS ONE</div>
+      <div class="platform-tag"><div class="platform-dot"></div>Frontiers</div>
+      <div class="platform-tag"><div class="platform-dot"></div>Oxford Academic</div>
+      <div class="platform-tag"><div class="platform-dot"></div>ACS Publications</div>
+      <div class="platform-tag"><div class="platform-dot"></div>IEEE Xplore</div>
+      <div class="platform-tag"><div class="platform-dot"></div>ACM DL</div>
+    </div>
+  </div>
+
+  <!-- Save -->
+  <div class="save-row">
+    <button class="save-btn" id="save-btn">Save Settings</button>
+    <span class="save-status" id="save-status">✓ Settings saved!</span>
+  </div>
+</div>
+
+<script src="options.js"></script>
+</body>
+</html>

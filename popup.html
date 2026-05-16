@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PaperLens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 300px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 14px;
+    background: #ffffff;
+    color: #1a1714;
+  }
+
+  .header {
+    padding: 16px 18px 14px;
+    border-bottom: 1px solid #e8e4de;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8f7f5;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #2563b0;
+  }
+
+  .logo svg { opacity: 0.9; }
+
+  .version { font-size: 11px; color: #9a9085; }
+
+  .status-section {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e8e4de;
+  }
+
+  .status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .status-label { font-size: 12px; color: #7a7067; }
+
+  .status-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #9a9085;
+  }
+  .status-dot.active { background: #16a34a; }
+  .status-dot.inactive { background: #dc4040; }
+
+  .site-name {
+    font-size: 12px;
+    color: #2563b0;
+    background: #eef3fc;
+    padding: 3px 8px;
+    border-radius: 12px;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .actions { padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; }
+
+  .btn-primary {
+    background: #2563b0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: #1a4d96; }
+
+  .btn-secondary {
+    background: #f8f7f5;
+    color: #1a1714;
+    border: 1px solid #e8e4de;
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+  }
+  .btn-secondary:hover { background: #eef3fc; border-color: #2563b0; color: #2563b0; }
+
+  .quick-settings {
+    padding: 0 18px 14px;
+    border-top: 1px solid #e8e4de;
+  }
+
+  .qs-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #9a9085;
+    padding: 12px 0 8px;
+  }
+
+  .level-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  .level-btn {
+    flex: 1;
+    background: #f8f7f5;
+    border: 1px solid #e8e4de;
+    border-radius: 20px;
+    padding: 5px 8px;
+    font-size: 11.5px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    color: #7a7067;
+    transition: all 0.15s;
+  }
+  .level-btn.active { background: #eef3fc; border-color: #2563b0; color: #2563b0; font-weight: 600; }
+  .level-btn:hover:not(.active) { border-color: #b0b8c8; }
+
+  .footer {
+    padding: 10px 18px;
+    border-top: 1px solid #e8e4de;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer a {
+    font-size: 11px;
+    color: #9a9085;
+    text-decoration: none;
+  }
+  .footer a:hover { color: #2563b0; }
+
+  .no-paper {
+    padding: 20px 18px;
+    text-align: center;
+    color: #9a9085;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .no-paper .icon { font-size: 28px; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
+        <circle cx="11" cy="11" r="10" stroke="#2563b0" stroke-width="1.5"/>
+        <path d="M7 11h8M11 7v8" stroke="#2563b0" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="11" cy="11" r="3" fill="#2563b0" opacity="0.2"/>
+      </svg>
+      PaperLens
+    </div>
+    <span class="version">v1.0</span>
+  </div>
+
+  <div id="main-content">
+    <div class="status-section">
+      <div class="status-row">
+        <span class="status-label">Status</span>
+        <div class="status-badge">
+          <div class="status-dot" id="status-dot"></div>
+          <span id="status-text">Checking...</span>
+        </div>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Current site</span>
+        <span class="site-name" id="site-name">—</span>
+      </div>
+    </div>
+
+    <div id="paper-actions" class="actions">
+      <button class="btn-primary" id="open-btn">Open PaperLens</button>
+      <button class="btn-secondary" id="options-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        Full Settings
+      </button>
+    </div>
+
+    <div class="quick-settings">
+      <div class="qs-title">Quick Level</div>
+      <div class="level-row">
+        <button class="level-btn" data-level="beginner">Beginner</button>
+        <button class="level-btn active" data-level="student">Student</button>
+        <button class="level-btn" data-level="researcher">Researcher</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="#" id="about-link">About PaperLens</a>
+    <a href="#" id="options-link">Settings →</a>
+  </div>
+
+<script src="popup.js"></script>
+</body>
+</html>
