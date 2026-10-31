@@ -1,24 +1,49 @@
-# PaperLens 🔍
+# PaperLens (CiteSight)
 
-A minimalist, privacy-focused open-source browser extension designed to optimize online research, reading stamina, and document accessibility for students and academic researchers.
+PaperLens is a Chrome extension for reading scientific papers with less friction. It adds an in-page research assistant for explanations, terminology help, and summaries while keeping the reader on the source document.
 
-## ✦ The Overview
-Online academic reading can be exhausting due to poor web formatting, harsh contrast, and distracting page layouts. **PaperLens** introduces custom overlay dynamics and layout adjustments to drastically reduce visual fatigue, maximize reading focus, and support cognitive stamina during deep-dive literature reviews.
+## Features
 
-## 🚀 Features
-* **Adaptive Visual Overlays:** Custom tinting and high-contrast modes engineered to alleviate digital eye strain during long-form reading sessions.
-* **Distraction-Free Architecture:** Surgical DOM injection to isolate content text and mute layout noise.
-* **Granular Options Control:** Built-in options dashboard to dynamically configure reading lenses according to specific accessibility requirements.
-* **Privacy-First Architecture:** Zero external tracking, API queries, or telemetry. All settings and runtime configurations are processed and saved strictly within local browser storage.
+- Adds a persistent sidebar to supported research and academic sites.
+- Explains scientific terms and passages.
+- Supports AI-assisted summaries and research questions.
+- Includes a popup for quick controls and an options page for configuration.
+- Uses local browser storage for extension settings.
 
-## 🛠️ Project Structure
+The current extension targets sites including PubMed, arXiv, bioRxiv, medRxiv, Nature, Science, Cell, ScienceDirect, Springer, Wiley, JSTOR, PLOS, Frontiers, IEEE Xplore, ACM Digital Library, and other academic publishers listed in `manifest.json`.
+
+## Install locally
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/OmarElboray/CiteSight.git
+   cd CiteSight
+   ```
+
+2. Open `chrome://extensions`.
+3. Enable **Developer mode**.
+4. Choose **Load unpacked** and select this directory.
+5. Open a supported paper page.
+
+## Project structure
+
 ```text
-paper-lens/
+CiteSight/
+├── manifest.json       # Manifest V3 permissions and supported sites
 ├── src/
-│   ├── content.js     # Core DOM parsing, overlay insertion, and layout tuning
-│   ├── content.css    # High-performance CSS filters and accessibility rules
-│   └── background.js  # Global runtime listener and extension lifecycle manager
-├── icons/             # Multi-size visual branding assets
-├── manifest.json      # Extension configuration, capability permissions, and security parameters
-├── popup.html/.js     # Quick-access extension status interface
-└── options.html/.js   # Dedicated settings dashboard for persistent configurations
+│   ├── background.js   # Service worker
+│   ├── content.js     # Sidebar and page integration
+│   └── content.css    # Sidebar and reading styles
+├── popup.html/.js      # Quick controls
+├── options.html/.js    # Persistent settings
+└── icons/              # Extension icons
+```
+
+## Configuration and privacy
+
+AI provider access is configured from the extension UI. Review permissions and provider policies before enabling a provider: page content may be sent to the selected AI API to generate explanations or summaries. Settings are stored locally unless a configured provider handles the request.
+
+## Development
+
+This is a no-build vanilla JavaScript extension. After editing files, select **Reload** for the extension in `chrome://extensions`.
